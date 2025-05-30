@@ -24,22 +24,22 @@ This is a simple FastAPI application for managing company vehicles and their fue
 - `POST /fuel_logs/` — Add a new fuel log entry
 - `GET /fuel_logs/` — List all fuel logs
 
-## 🛠️ Setup Instructions
+## 🛠️ Setup
 
 1. **Clone the repo**
 
    git clone https://github.com/Dausdaneil/vehicle-management.git
    cd vehicle-management
    
-2**Install dependencies**
+2. **Install dependencies**
    
    pip install -r requirements.txt
 
-3.**Run the app**
+3. **Run the app**
    
    uvicorn main:app --reload
 
-4.**Access the API docs**
+4. **Access the API docs**
 
    Visits: http//127.0.0.1:8000/docs
    
