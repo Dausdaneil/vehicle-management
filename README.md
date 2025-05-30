@@ -28,6 +28,21 @@ This is a simple FastAPI application for managing company vehicles and their fue
 
 1. **Clone the repo**
 
-   ```bash
    git clone https://github.com/Dausdaneil/vehicle-management.git
    cd vehicle-management
+   
+2**Install dependencies**
+   
+   pip install -r requirements.txt
+
+3.**Run the app**
+   
+   uvicorn main:app --reload
+
+4.**Access the API docs**
+
+   Visits: http//127.0.0.1:8000/docs
+   
+Created by @Dausdaneil
+
+Note: I will be developing more features for this app from time to time. Let me know if you want to add a short section for PostgreSQL setup or database info.
