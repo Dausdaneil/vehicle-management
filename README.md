@@ -42,7 +42,6 @@ This is a simple FastAPI application for managing company vehicles and their fue
 4. **Access the API docs**
 
    Visits: http//127.0.0.1:8000/docs
-   
-Created by @Dausdaneil
+
 
 Note: I will be developing more features for this app from time to time. Let me know if you want to add a short section for PostgreSQL setup or database info.
