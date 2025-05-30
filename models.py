@@ -9,7 +9,7 @@ class Vehicle(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     plate_number = Column(String, unique=True, index=True)
-    status = Column(String, unique=True, index=True)
+    status = Column(String, default="Active")
 
     fuel_logs = relationship("FuelLog", back_populates="vehicle")
 

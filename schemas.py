@@ -5,7 +5,10 @@ from datetime import date
 class VehicleCreate(BaseModel):
     name: str
     plate_number: str
+    status: str
 
+class StatusUpdate(BaseModel):
+    new_status: str
 
 class VehicleOut(VehicleCreate):
     id: int

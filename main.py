@@ -1,13 +1,19 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
-import models
-import schemas
+import models, schemas
 from database import SessionLocal, engine
+from pydantic import BaseModel
 
 # Create tables
 models.Base.metadata.create_all(bind=engine)
 
+router = APIRouter()
+
 app = FastAPI()
+
+
+class StatusUpdate(BaseModel):
+    new_status: str
 
 
 # DB dependency
@@ -34,12 +40,23 @@ def create_vehicle(vehicle: schemas.VehicleCreate, db: Session = Depends(get_db)
     db.refresh(db_vehicle)
     return db_vehicle
 
+# POST /vehicles/{vehicle_id}/status
+@router.put("/vehicles/{vehicle_id}/status")
+def update_vehicle_status(vehicle_id: int, data: StatusUpdate, db: Session = Depends(get_db)):
+    vehicle = db.query(models.Vehicle).filter(models.Vehicle.id == vehicle_id).first()
+    if not vehicle:
+        raise HTTPException(status_code=404, detail="Vehicle not found")
+
+    vehicle.status = data.new_status
+    db.commit()
+    db.refresh(vehicle)
+    return {"message": "Status updated", "vehicle": vehicle}
+
 
 # GET /vehicles
 @app.get("/vehicles/", response_model=list[schemas.VehicleOut])
 def read_vehicles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return db.query(models.Vehicle).offset(skip).limit(limit).all()
-
+    return db.query(models.Vehicle).order_by(models.Vehicle.id).offset(skip).limit(limit).all()
 
 # POST /fuel_logs
 @app.post("/fuel_logs/", response_model=schemas.FuelLogOut)
@@ -60,3 +77,6 @@ def create_fuel_log(fuel_log: schemas.FuelLogCreate, db: Session = Depends(get_d
 @app.get("/fuel_logs/", response_model=list[schemas.FuelLog])
 def read_fuel_logs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return db.query(models.FuelLog).offset(skip).limit(limit).all()
+
+
+app.include_router(router)
